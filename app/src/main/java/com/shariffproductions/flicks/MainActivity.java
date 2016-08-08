@@ -1,11 +1,10 @@
 package com.shariffproductions.flicks;
 
-import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends Activity {
+public class MainActivity extends YouTubeBaseActivity {
     ArrayList<MovieDetails> movieDetailsList;
     MovieDetailsAdapter movieDetailsAdapter;
 
@@ -49,6 +48,7 @@ public class MainActivity extends Activity {
                     for (int i = 0; i < results.length(); i++) {
                         movie = results.getJSONObject(i);
                         movieDetails = new MovieDetails(
+                                movie.getInt("id"),
                                 movie.getString("title"),
                                 movie.getString("overview"),
                                 movie.getString("poster_path"),
@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(MainActivity.this, "Failed to load movie listing data", Toast.LENGTH_LONG).show();
             }
         });
     }
