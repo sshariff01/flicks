@@ -1,10 +1,15 @@
 package com.shariffproductions.flicks;
 
+import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -15,7 +20,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends YouTubeBaseActivity {
+public class MainActivity extends Activity {
     ArrayList<MovieDetails> movieDetailsList;
     MovieDetailsAdapter movieDetailsAdapter;
 

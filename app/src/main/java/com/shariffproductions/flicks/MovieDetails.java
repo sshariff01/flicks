@@ -6,7 +6,7 @@ public class MovieDetails {
     public String overview;
     public String posterImageUrl;
     public String backdropImageUrl;
-    public String trailerUrl;
+    public String trailerUrlKey;
 
     public MovieDetails(int id, String title, String overview, String posterImageFilePath, String backdropImageFilePath) {
         this.id = id;
