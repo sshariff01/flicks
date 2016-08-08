@@ -13,10 +13,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
+    private static final int PORTRAIT = 1;
+
     private static class MovieDetailsHolder {
         TextView title;
         TextView overview;
         ImageView posterImage;
+        ImageView backdropImage;
     }
 
     public MovieDetailsAdapter(Context context, ArrayList<MovieDetails> movieDetailsList) {
@@ -35,6 +38,7 @@ public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
             movieDetailsHolder.title = (TextView) convertView.findViewById(R.id.movie_title);
             movieDetailsHolder.overview = (TextView) convertView.findViewById(R.id.movie_overview);
             movieDetailsHolder.posterImage = (ImageView) convertView.findViewById(R.id.poster_image);
+            movieDetailsHolder.backdropImage = (ImageView) convertView.findViewById(R.id.backdrop_image);
             convertView.setTag(movieDetailsHolder);
         } else {
             movieDetailsHolder = (MovieDetailsHolder) convertView.getTag();
@@ -42,7 +46,11 @@ public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
 
         movieDetailsHolder.title.setText(movieDetails.title);
         movieDetailsHolder.overview.setText(movieDetails.overview);
-        Picasso.with(getContext()).load(movieDetails.posterImageUrl).into(movieDetailsHolder.posterImage);
+        if (this.getContext().getResources().getConfiguration().orientation == PORTRAIT) {
+            Picasso.with(getContext()).load(movieDetails.posterImageUrl).into(movieDetailsHolder.posterImage);
+        } else {
+            Picasso.with(getContext()).load(movieDetails.backdropImageUrl).into(movieDetailsHolder.backdropImage);
+        }
 
         return convertView;
     }

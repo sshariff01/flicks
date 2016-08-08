@@ -1,8 +1,10 @@
 package com.shariffproductions.flicks;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -33,6 +35,18 @@ public class MainActivity extends Activity {
         populateMovieListings();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void populateMovieListings() {
         HttpClient httpClient = new HttpClient();
         httpClient.getNowPlayingMovies(new JsonHttpResponseHandler() {
@@ -49,7 +63,8 @@ public class MainActivity extends Activity {
                         movieDetails = new MovieDetails(
                                 movie.getString("title"),
                                 movie.getString("overview"),
-                                movie.getString("poster_path")
+                                movie.getString("poster_path"),
+                                movie.getString("backdrop_path")
                         );
                         movieDetailsAdapter.add(movieDetails);
                     }
