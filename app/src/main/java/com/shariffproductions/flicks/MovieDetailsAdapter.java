@@ -47,9 +47,15 @@ public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
         movieDetailsHolder.title.setText(movieDetails.title);
         movieDetailsHolder.overview.setText(movieDetails.overview);
         if (isOrientationPortrait()) {
-            Picasso.with(getContext()).load(movieDetails.posterImageUrl).into(movieDetailsHolder.posterImage);
+            Picasso.with(getContext())
+                    .load(movieDetails.posterImageUrl)
+                    .into(movieDetailsHolder.posterImage);
         } else {
-            Picasso.with(getContext()).load(movieDetails.backdropImageUrl).into(movieDetailsHolder.backdropImage);
+            Picasso.with(getContext())
+                    .load(movieDetails.backdropImageUrl)
+                    .fit()
+                    .placeholder(R.mipmap.reels_bg)
+                    .into(movieDetailsHolder.backdropImage);
         }
         prepareYoutubeTrailer(movieDetails, movieDetailsHolder);
 
