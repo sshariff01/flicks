@@ -44,8 +44,19 @@ public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
             movieDetailsHolder = (MovieDetailsHolder) convertView.getTag();
         }
 
+        setUpMovieDetailsItem(movieDetails, movieDetailsHolder);
+
+        return convertView;
+    }
+
+    private void setUpMovieDetailsItem(MovieDetails movieDetails, MovieDetailsHolder movieDetailsHolder) {
         movieDetailsHolder.title.setText(movieDetails.title);
         movieDetailsHolder.overview.setText(movieDetails.overview);
+        setMovieDetailsImage(movieDetails, movieDetailsHolder);
+        setYoutubeTrailer(movieDetails, movieDetailsHolder);
+    }
+
+    private void setMovieDetailsImage(MovieDetails movieDetails, MovieDetailsHolder movieDetailsHolder) {
         if (isOrientationPortrait()) {
             Picasso.with(getContext())
                     .load(movieDetails.posterImageUrl)
@@ -57,16 +68,13 @@ public class MovieDetailsAdapter extends ArrayAdapter<MovieDetails> {
                     .placeholder(R.mipmap.reels_bg)
                     .into(movieDetailsHolder.backdropImage);
         }
-        prepareYoutubeTrailer(movieDetails, movieDetailsHolder);
-
-        return convertView;
     }
 
     private boolean isOrientationPortrait() {
         return this.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-    private void prepareYoutubeTrailer(final MovieDetails movieDetails, MovieDetailsHolder movieDetailsHolder) {
+    private void setYoutubeTrailer(final MovieDetails movieDetails, MovieDetailsHolder movieDetailsHolder) {
         if (isOrientationPortrait()) {
             movieDetailsHolder.posterImage.setOnClickListener(new View.OnClickListener() {
                 @Override
