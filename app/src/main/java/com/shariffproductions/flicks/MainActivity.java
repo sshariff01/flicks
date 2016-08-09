@@ -1,15 +1,10 @@
 package com.shariffproductions.flicks;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -29,7 +24,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        movieDetailsList = new ArrayList<>();
+        movieDetailsList = initializeMovieDetailsList(savedInstanceState);
         movieDetailsAdapter = new MovieDetailsAdapter(this, movieDetailsList);
         movieDetailsAdapter.setNotifyOnChange(true);
 
@@ -37,6 +32,20 @@ public class MainActivity extends Activity {
         listView.setAdapter(movieDetailsAdapter);
 
         populateMovieListings();
+    }
+
+    private ArrayList<MovieDetails> initializeMovieDetailsList(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return new ArrayList<>();
+        } else {
+            return savedInstanceState.getParcelableArrayList("movieDetailsList");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("movieDetailsList", movieDetailsList);
     }
 
     private void populateMovieListings() {
