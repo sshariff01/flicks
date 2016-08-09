@@ -18,6 +18,7 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends Activity {
     ArrayList<MovieDetails> movieDetailsList;
     MovieDetailsAdapter movieDetailsAdapter;
+    private final static String savedInstanceKey_movieDetailsList = "movieDetailsList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +39,14 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             return new ArrayList<>();
         } else {
-            return savedInstanceState.getParcelableArrayList("movieDetailsList");
+            return savedInstanceState.getParcelableArrayList(savedInstanceKey_movieDetailsList);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelableArrayList("movieDetailsList", movieDetailsList);
+        savedInstanceState.putParcelableArrayList(savedInstanceKey_movieDetailsList, movieDetailsList);
     }
 
     private void populateMovieListings() {
