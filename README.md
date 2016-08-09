@@ -1,6 +1,9 @@
 # Flicks
 
-**Name of your app** shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
+
+## Overview
+
+**Flicks** shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
 
 * User can **scroll through current movies** from the Movie Database API
 * Layout is optimized with the pattern.
