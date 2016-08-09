@@ -14,7 +14,7 @@
 
 ## Video Walkthrough
 
-<img src='https://media.giphy.com/media/26BRMqZp9HuVcaEcE/giphy.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://im.ezgif.com/tmp/ezgif-51593064.gif' title='Flicks Demo' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
