@@ -62,30 +62,12 @@ public class MainActivity extends Activity {
     }
 
     private void populateMovieListings() {
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = HttpClient.getClient();
         httpClient.getNowPlayingMovies(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-
-                try {
-                    JSONArray results = (JSONArray) response.get("results");
-                    JSONObject movie;
-                    MovieDetails movieDetails;
-                    for (int i = 0; i < results.length(); i++) {
-                        movie = results.getJSONObject(i);
-                        movieDetails = new MovieDetails(
-                                movie.getInt("id"),
-                                movie.getString("title"),
-                                movie.getString("overview"),
-                                movie.getString("poster_path"),
-                                movie.getString("backdrop_path")
-                        );
-                        movieDetailsAdapter.add(movieDetails);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                parseMovieDetailsFrom(response);
             }
 
             @Override
@@ -97,32 +79,13 @@ public class MainActivity extends Activity {
     }
 
     public void fetchNowPlayingMovieDetails() {
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = HttpClient.getClient();
         httpClient.getNowPlayingMovies(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 movieDetailsAdapter.clear();
-
-                try {
-                    JSONArray results = (JSONArray) response.get("results");
-                    JSONObject movie;
-                    MovieDetails movieDetails;
-                    for (int i = 0; i < results.length(); i++) {
-                        movie = results.getJSONObject(i);
-                        movieDetails = new MovieDetails(
-                                movie.getInt("id"),
-                                movie.getString("title"),
-                                movie.getString("overview"),
-                                movie.getString("poster_path"),
-                                movie.getString("backdrop_path")
-                        );
-                        movieDetailsAdapter.add(movieDetails);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+                parseMovieDetailsFrom(response);
                 swipeContainer.setRefreshing(false);
             }
 
@@ -134,4 +97,24 @@ public class MainActivity extends Activity {
         });
     }
 
+    private void parseMovieDetailsFrom(JSONObject response) {
+        try {
+            JSONArray results = (JSONArray) response.get("results");
+            JSONObject movie;
+            MovieDetails movieDetails;
+            for (int i = 0; i < results.length(); i++) {
+                movie = results.getJSONObject(i);
+                movieDetails = new MovieDetails(
+                        movie.getInt("id"),
+                        movie.getString("title"),
+                        movie.getString("overview"),
+                        movie.getString("poster_path"),
+                        movie.getString("backdrop_path")
+                );
+                movieDetailsAdapter.add(movieDetails);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

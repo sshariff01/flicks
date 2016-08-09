@@ -34,7 +34,7 @@ public class MovieTrailerActivity extends YouTubeBaseActivity {
             return;
         }
 
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = HttpClient.getClient();
         httpClient.getYoutubeTrailer(movieId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

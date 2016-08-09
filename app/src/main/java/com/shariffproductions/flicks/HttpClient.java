@@ -5,6 +5,17 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
 
 public class HttpClient extends AsyncHttpClient {
+    private static HttpClient httpClient;
+
+    public static HttpClient getClient() {
+        if (httpClient == null) httpClient = new HttpClient();
+        return httpClient;
+    }
+
+    private HttpClient() {
+
+    }
+
     public void getNowPlayingMovies(ResponseHandlerInterface responseHandler) {
         String url = "http://api.themoviedb.org/3/movie/now_playing";
         RequestParams requestParams = new RequestParams();
