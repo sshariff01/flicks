@@ -31,7 +31,9 @@ public class MainActivity extends Activity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchNowPlayingMovieDetails();
+                movieDetailsAdapter.clear();
+                populateMovieListings();
+                swipeContainer.setRefreshing(false);
             }
         });
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright);
@@ -74,25 +76,6 @@ public class MainActivity extends Activity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 Toast.makeText(MainActivity.this, "Failed to load movie listing data", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void fetchNowPlayingMovieDetails() {
-        HttpClient httpClient = HttpClient.getClient();
-        httpClient.getNowPlayingMovies(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                movieDetailsAdapter.clear();
-                parseMovieDetailsFrom(response);
-                swipeContainer.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(MainActivity.this, "Failed to reload movie listing data", Toast.LENGTH_LONG).show();
             }
         });
     }
