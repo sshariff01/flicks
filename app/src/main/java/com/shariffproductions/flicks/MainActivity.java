@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
             @Override
             public void onRefresh() {
                 movieDetailsAdapter.clear();
-                populateMovieListings();
+                populateMovieListings(HttpClient.getClient());
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.movie_listings);
         listView.setAdapter(movieDetailsAdapter);
 
-        populateMovieListings();
+        populateMovieListings(HttpClient.getClient());
     }
 
     private ArrayList<MovieDetails> initializeMovieDetailsList(Bundle savedInstanceState) {
@@ -63,13 +63,13 @@ public class MainActivity extends Activity {
         savedInstanceState.putParcelableArrayList(savedInstanceKey_movieDetailsList, movieDetailsList);
     }
 
-    private void populateMovieListings() {
-        HttpClient httpClient = HttpClient.getClient();
+    private void populateMovieListings(HttpClient httpClient) {
         httpClient.getNowPlayingMovies(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                parseMovieDetailsFrom(response);
+                ArrayList<MovieDetails> movieDetailsArrayList = parseMovieDetailsFrom(response);
+                movieDetailsAdapter.addAll(movieDetailsArrayList);
             }
 
             @Override
@@ -80,7 +80,8 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void parseMovieDetailsFrom(JSONObject response) {
+    private ArrayList<MovieDetails> parseMovieDetailsFrom(JSONObject response) {
+        ArrayList<MovieDetails> movieDetailsArrayList = new ArrayList<>();
         try {
             JSONArray results = (JSONArray) response.get("results");
             JSONObject movie;
@@ -94,10 +95,11 @@ public class MainActivity extends Activity {
                         movie.getString("poster_path"),
                         movie.getString("backdrop_path")
                 );
-                movieDetailsAdapter.add(movieDetails);
+                movieDetailsArrayList.add(movieDetails);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return movieDetailsArrayList;
     }
 }
